@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CarsRequest;
+use App\Models\Car;
 use Illuminate\Http\Request;
 
-class Cars extends Controller
+class CarsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,17 +15,8 @@ class Cars extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $cars = Car::all();
+        return response()->json($cars);
     }
 
     /**
@@ -32,9 +25,11 @@ class Cars extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CarsRequest $request)
     {
-        //
+        $data = $request->validated();
+        $newCar = Car::create($data);
+        return response()->json($newCar);
     }
 
     /**
@@ -45,18 +40,8 @@ class Cars extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        $cars = Car::findOrFail($id);
+        return response()->json($cars);
     }
 
     /**
@@ -66,9 +51,12 @@ class Cars extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CarsRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+        $car = Car::findOrFail($id);
+        $car->update($data);
+        return response()->json($car);
     }
 
     /**
@@ -79,6 +67,8 @@ class Cars extends Controller
      */
     public function destroy($id)
     {
-        //
+        $car = Car::findOrFail($id);
+        $car->delete();
+        return response()->json($car);
     }
 }
