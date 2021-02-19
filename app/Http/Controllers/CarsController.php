@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CarsRequest;
+use App\Http\Requests\UpdateCarsRequest;
 use App\Models\Car;
 use Illuminate\Http\Request;
 
@@ -51,7 +52,7 @@ class CarsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CarsRequest $request, $id)
+    public function update(UpdateCarsRequest $request, $id)
     {
         $data = $request->validated();
         $car = Car::findOrFail($id);
